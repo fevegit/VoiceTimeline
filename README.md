@@ -21,19 +21,6 @@ VoiceTimeline keeps Discord's native toast design and makes the username bold fo
 - Complete dynamic Spanish and English interface.
 - No voice recording, telemetry or external services.
 
-## Screenshots
-
-### English
-
-![VoiceTimeline settings in English](assets/settings-en.png)
-
-<details>
-<summary>Spanish interface</summary>
-
-![Ajustes de VoiceTimeline en español](assets/settings-es.png)
-
-</details>
-
 ## Installation
 
 VoiceTimeline is a custom userplugin and requires a source build of Vencord.
@@ -87,35 +74,6 @@ To make only the username bold while preserving Discord's exact toast appearance
 Discord frequently changes internal client modules. VoiceTimeline is maintained against current Vencord source builds, but Discord updates may require adjustments.
 
 This plugin is not an official Vencord plugin and is provided on a best-effort basis.
-
-## Español
-
-VoiceTimeline muestra quién entra, sale o vuelve a entrar en tu llamada de voz actual y conserva un historial de la sesión activa.
-
-### Funciones
-
-- Avisos nativos de Discord para entradas, salidas y reentradas.
-- Nombre del usuario en negrita dentro del toast original.
-- Colores verde y rojo opcionales.
-- Duración de permanencia opcional al salir.
-- Duración configurable de las notificaciones.
-- Historial de la sesión de voz actual.
-- Acceso desde el menú contextual del canal de voz.
-- Botones de simulación para probarlo sin otra cuenta.
-- Interfaz completamente bilingüe español/inglés.
-- Sin grabación de voz, telemetría ni servicios externos.
-
-### Instalación rápida en Windows
-
-```powershell
-Set-Location "$env:USERPROFILE\Vencord\src\userplugins"
-git clone https://github.com/fevegit/VoiceTimeline.git voiceTimeline
-Set-Location ..\..
-pnpm build
-pnpm inject
-```
-
-Reinicia Discord y activa **VoiceTimeline** en **Ajustes → Vencord → Plugins**.
 
 ## Author
 
