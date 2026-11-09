@@ -8,23 +8,62 @@ import "./styles.css";
 
 import type { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
-import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize, openModal } from "@utils/modal";
+import { ModalCloseButton as ModalCloseButtonLegacy, ModalContent as ModalContentLegacy, ModalHeader as ModalHeaderLegacy, ModalRoot as ModalRootLegacy, ModalSize, openModal } from "@utils/modal";
+import type { ComponentType } from "react";
+
+const ModalRoot = ModalRootLegacy as unknown as ComponentType<any>;
+const ModalHeader = ModalHeaderLegacy as unknown as ComponentType<any>;
+const ModalContent = ModalContentLegacy as unknown as ComponentType<any>;
+const ModalCloseButton = ModalCloseButtonLegacy as unknown as ComponentType<any>;
+
 import definePlugin, { OptionType } from "@utils/types";
 import {
     AuthenticationStore,
-    Button,
     ChannelStore,
-    Forms,
     GuildMemberStore,
     LocaleStore,
     Menu,
     React,
     SelectedChannelStore,
-    Toasts,
     UserStore,
     VoiceStateStore,
-    showToast
+    showToast as nativeShowToast
 } from "@webpack/common";
+import { Button } from "@components/Button";
+
+const Toasts = {
+    Type: {
+        MESSAGE: "message",
+        SUCCESS: "success",
+        FAILURE: "critical",
+        ERROR: "critical"
+    }
+};
+
+function showToast(
+    message: string,
+    type: string = Toasts.Type.MESSAGE,
+    options?: { duration?: number }
+) {
+    const payload: {
+        text: string;
+        variant?: "success" | "critical";
+        duration?: number;
+    } = { text: message };
+
+    if (type === Toasts.Type.SUCCESS) {
+        payload.variant = "success";
+    } else if (type === Toasts.Type.FAILURE) {
+        payload.variant = "critical";
+    }
+
+    if (options?.duration !== undefined) {
+        payload.duration = options.duration;
+    }
+
+    nativeShowToast(payload);
+}
+
 
 interface VoiceStateChangeEvent {
     userId: string;
@@ -682,36 +721,36 @@ function simulateRejoin() {
 
 function SettingsTestPanel() {
     return (
-        <Forms.FormSection>
-            <Forms.FormTitle tag="h3">{t("Pruebas sin otra cuenta", "Testing without another account")}</Forms.FormTitle>
-            <Forms.FormText>
+        <section>
+            <h3>{t("Pruebas sin otra cuenta", "Testing without another account")}</h3>
+            <p>
                 {t(
                     "Estos botones usan el mismo flujo interno que los eventos reales.",
                     "These buttons use the same internal flow as real events."
                 )}
-            </Forms.FormText>
+            </p>
             <div className="vt-test-buttons">
-                <Button size={Button.Sizes.SMALL} onClick={simulateJoin}>
+                <Button size="small" onClick={simulateJoin}>
                     {t("Simular entrada", "Simulate join")}
                 </Button>
-                <Button size={Button.Sizes.SMALL} onClick={simulateLeave}>
+                <Button size="small" onClick={simulateLeave}>
                     {t("Simular salida", "Simulate leave")}
                 </Button>
-                <Button size={Button.Sizes.SMALL} onClick={simulateRejoin}>
+                <Button size="small" onClick={simulateRejoin}>
                     {t("Simular reentrada", "Simulate rejoin")}
                 </Button>
-                <Button size={Button.Sizes.SMALL} onClick={openHistory}>
+                <Button size="small" onClick={openHistory}>
                     {t("Abrir historial", "Open history")}
                 </Button>
                 <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
+                    size="small"
+                    variant="dangerPrimary"
                     onClick={clearCurrentHistory}
                 >
                     {t("Limpiar historial", "Clear history")}
                 </Button>
             </div>
-        </Forms.FormSection>
+        </section>
     );
 }
 
